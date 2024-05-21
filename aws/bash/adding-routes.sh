@@ -1,5 +1,10 @@
 #!/bin/bash
-# This script can add one or multiple routes to specified route table in AWS for a given destination CIDR block and destination.
+
+######################################################################################################
+# ** About this script **
+# This script can add one or multiple routes to a specified VPC route table in AWS for a given 
+# destination CIDR block and destination.
+######################################################################################################
 
 # Set variables for the destination CIDR block, transit gateway ID, and table name prefix
 destination_cidr='10.0.0.0/16'
