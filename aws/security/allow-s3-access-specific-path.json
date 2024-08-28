@@ -1,0 +1,61 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowS3Access",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListAccessPointsForObjectLambda",
+                "s3:GetAccessPoint",
+                "s3:PutAccountPublicAccessBlock",
+                "s3:ListAccessPoints",
+                "s3:CreateStorageLensGroup",
+                "s3:ListJobs",
+                "s3:PutStorageLensConfiguration",
+                "s3:ListMultiRegionAccessPoints",
+                "s3:ListStorageLensGroups",
+                "s3:ListStorageLensConfigurations",
+                "s3:GetAccountPublicAccessBlock",
+                "s3:ListAllMyBuckets",
+                "s3:ListAccessGrantsInstances",
+                "s3:PutAccessPointPublicAccessBlock",
+                "s3:CreateJob"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowListBucketIfSpecificPrefixIsIncludedInRequest",
+            "Effect": "Allow",
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::primary-data-imci",
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": "mmgy/input/*"
+                }
+            }
+        },
+        {
+            "Sid": "AllowUserToReadWriteObjectDataInMMGYFolder",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::primary-data-imci/mmgy/input/*"
+        },
+        {
+            "Sid": "ExplicitlyDenyAnyRequestsForAllOtherFoldersExceptMMGY",
+            "Effect": "Deny",
+            "Action": "s3:ListBucket",
+            "Resource": "arn:aws:s3:::primary-data-imci",
+            "Condition": {
+                "StringNotLike": {
+                    "s3:prefix": "mmgy/input/*"
+                },
+                "Null": {
+                    "s3:prefix": "false"
+                }
+            }
+        }
+    ]
+}
