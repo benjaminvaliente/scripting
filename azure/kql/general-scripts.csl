@@ -1,0 +1,31 @@
+// Azure Log Analytics - Kusto Query Language (KQL)
+
+///////////////////////////////////////////////////////////
+// Get all available tables for an specific service
+///////////////////////////////////////////////////////////
+search *
+| summarize count() by $table
+
+///////////////////////////////////////////////////////////
+// Get the table schema
+///////////////////////////////////////////////////////////
+AppServiceHTTPLogs
+| getschema
+
+///////////////////////////////////////////////////////////
+// Retrieve a sample of the data to understand its structure
+///////////////////////////////////////////////////////////
+AppServiceHTTPLogs
+| take 10
+
+///////////////////////////////////////////////////////////
+// Retrieve 4xx and 5xx logs from App Service
+///////////////////////////////////////////////////////////
+AppServiceHTTPLogs
+// Querying the identified table with correct column names
+| where ScStatus >= 404 and ScStatus <= 510
+// Adjust the column name "LogLevel" and value "Error" based on your actual data schema
+| summarize Count = count() by TimeGenerated, CsMethod, CsUriStem, Result, ScStatus, CsUriQuery
+// Adjust the column name "Message" based on your actual data schema
+| order by Count desc
+| top 20 by Count
