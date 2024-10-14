@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BUCKET_PREFIX='s3-aereo-home'
+BUCKET_PREFIX='<bucket_name>'
 
 # Fetch all S3 buckets with the prefix
 buckets=$(aws s3api list-buckets --query "Buckets[?starts_with(Name, '$BUCKET_PREFIX')].Name" --output text)
