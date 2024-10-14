@@ -1,9 +1,9 @@
 #!/bin/bash
 
-BUCKET_PREFIX='<bucket_prefix>'
+BUCKET_PREFIX='s3-aereo-home'
 
 # Fetch all S3 buckets with the prefix
-buckets=$(aws s3api list-buckets --query "Buckets[?starts_with(Name, $BUCKET_PREFIX)].Name" --output text)
+buckets=$(aws s3api list-buckets --query "Buckets[?starts_with(Name, '$BUCKET_PREFIX')].Name" --output text)
 
 
 # Define the lifecycle policy JSON for non-current versions
