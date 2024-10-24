@@ -1,7 +1,13 @@
-# Amazon Linux
+#!/bin/bash
+
+######################################################################################################
+# ** About this script **
+# This script automates the installation of Cloudwatch agent in some Linux distributions
+######################################################################################################
 
 # Get the OS name
 os=$(awk -F= '$1 == "NAME" {gsub(/"/, "", $2); print $2}' /etc/os-release)
+echo "Detected OS: $os"
 
 # Check the OS and execute the corresponding commands
 if [ "$os" == "Amazon Linux AMI" ]; then
@@ -13,7 +19,7 @@ if [ "$os" == "Amazon Linux AMI" ]; then
 elif [ "$os" == "Amazon Linux" ]; then
     echo "Detected Amazon Linux. Installing CloudWatch Agent using yum..."
     sudo yum install amazon-cloudwatch-agent -y
-elif [ "$os" == *"Ubuntu" || "$os" == *"Debian"* ]; then
+elif [[ "$os" == *"Ubuntu"* || "$os" == *"Debian"* ]]; then
     echo "Detected $os. Installing Cloudwtach Agent using dpkg..."
     cd ~/
     sudo wget https://amazoncloudwatch-agent.s3.amazonaws.com/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
